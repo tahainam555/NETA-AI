@@ -4,8 +4,9 @@ import type { Metadata } from "next";
 import { AppProviders } from "@/components/AppProviders";
 import { SiteShell } from "@/components/SiteShell";
 import { ChatWidget } from "@/components/ChatWidget";
+import { getSiteUrl } from "@/lib/site-url";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const siteUrl = getSiteUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
