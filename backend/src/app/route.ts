@@ -1,7 +1,5 @@
-import { NextResponse } from "next/server";
-
 export function GET() {
-  return NextResponse.json({
+  return Response.json({
     ok: true,
     service: "NETA AI API",
     message: "Backend is running.",
