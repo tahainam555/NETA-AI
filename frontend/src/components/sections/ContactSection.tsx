@@ -4,7 +4,7 @@ import { type ComponentProps, useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { ArrowRight, Mail, MapPin, MessagesSquare } from "lucide-react";
 
 import { contactFormSchema, type ContactFormValues } from "@/lib/contact-schema";
@@ -173,8 +173,6 @@ function ContactForm() {
 }
 
 export function ContactSection() {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? "";
-
   return (
     <section className="py-20 lg:py-28">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 lg:grid-cols-5 lg:px-8">
@@ -202,9 +200,7 @@ export function ContactSection() {
           ))}
         </motion.div>
 
-        <GoogleReCaptchaProvider reCaptchaKey={siteKey} scriptProps={{ async: true, defer: true }}>
-          <ContactForm />
-        </GoogleReCaptchaProvider>
+        <ContactForm />
       </div>
     </section>
   );

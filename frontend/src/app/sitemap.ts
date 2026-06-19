@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { blogPosts, caseStudies, services, solutions } from "@/lib/site-content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://neta.ai";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const routes = [
     "/",
     "/about",

@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { Logo } from "./Logo";
 import { Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
 import { apiUrl } from "@/lib/api";
 
 export function Footer() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
@@ -17,10 +19,12 @@ export function Footer() {
 
     setStatus("loading");
     try {
+      if (!executeRecaptcha) throw new Error("Security verification is still loading");
+      const recaptchaToken = await executeRecaptcha("newsletter_subscribe");
       const res = await fetch(apiUrl("/api/subscribe"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, recaptchaToken }),
       });
 
       if (!res.ok) throw new Error("Subscription failed");

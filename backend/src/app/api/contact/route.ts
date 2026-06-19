@@ -1,5 +1,6 @@
 import { contactApiSchema } from "@/lib/contact-schema";
 import { jsonResponse, optionsResponse } from "@/lib/http";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 import { sendContactEmail } from "@/lib/resend";
 
 export const runtime = "nodejs";
@@ -20,33 +21,8 @@ export async function POST(request: Request) {
     }
 
     const { recaptchaToken, ...data } = parsed.data;
-    const secret = process.env.RECAPTCHA_SECRET_KEY;
-
-    if (!secret) {
-      return jsonResponse(request, { error: "Missing reCAPTCHA secret." }, 500);
-    }
-
-    const verifyResponse = await fetch("https://www.google.com/recaptcha/api/siteverify", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams({
-        secret,
-        response: recaptchaToken,
-      }),
-    });
-
-    const verifyData = (await verifyResponse.json()) as {
-      success: boolean;
-      score?: number;
-      action?: string;
-    };
-
-    if (!verifyData.success || (verifyData.score ?? 0) < 0.5) {
+    if (!(await verifyRecaptcha(recaptchaToken, "contact_submit"))) {
       return jsonResponse(request, { error: "reCAPTCHA verification failed." }, 403);
-    }
-
-    if (verifyData.action && verifyData.action !== "contact_submit") {
-      return jsonResponse(request, { error: "Invalid reCAPTCHA action." }, 403);
     }
 
     await sendContactEmail({ ...data, recaptchaToken });

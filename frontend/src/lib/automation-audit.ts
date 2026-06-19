@@ -59,15 +59,15 @@ export function validateAuditContact(lead: Pick<AuditLead, "name" | "businessNam
   return "";
 }
 
-export async function submitAuditToN8n(payload: AuditLead): Promise<N8nAuditResponse> {
-  // Paste the webhook into NEXT_PUBLIC_N8N_WEBHOOK_URL, never into source code.
-  const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-  if (!webhookUrl) throw new Error("The audit service is not configured yet. Please contact NETA AI directly.");
-
-  const response = await fetch(webhookUrl, {
+export async function submitAuditToN8n(
+  payload: AuditLead,
+  recaptchaToken: string,
+): Promise<N8nAuditResponse> {
+  // The backend owns the private n8n webhook URL and forwards validated submissions.
+  const response = await fetch(apiUrl("/api/audit"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, recaptchaToken }),
   });
   const data = (await response.json().catch(() => ({}))) as Partial<N8nAuditResponse>;
   if (!response.ok || data.success === false) {
@@ -75,3 +75,4 @@ export async function submitAuditToN8n(payload: AuditLead): Promise<N8nAuditResp
   }
   return { success: true, ...data };
 }
+import { apiUrl } from "@/lib/api";

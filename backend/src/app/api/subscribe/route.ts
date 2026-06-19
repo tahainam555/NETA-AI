@@ -2,20 +2,28 @@ import { z } from "zod";
 import { Resend } from "resend";
 
 import { jsonResponse, optionsResponse } from "@/lib/http";
+import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export const OPTIONS = optionsResponse;
 
 const subscribeSchema = z.object({
   email: z.string().email(),
+  recaptchaToken: z.string().min(1),
+  website: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
     const payload = await request.json();
+    if (payload?.website) return jsonResponse(request, { ok: true });
     const parsed = subscribeSchema.safeParse(payload);
 
     if (!parsed.success) {
       return jsonResponse(request, { error: "Invalid email" }, 400);
+    }
+
+    if (!(await verifyRecaptcha(parsed.data.recaptchaToken, "newsletter_subscribe"))) {
+      return jsonResponse(request, { error: "reCAPTCHA verification failed." }, 403);
     }
 
     const resendToken = process.env.RESEND_SERVER_TOKEN;
@@ -33,7 +41,7 @@ export async function POST(request: Request) {
       from: fromEmail,
       to: [toEmail],
       subject: "New Newsletter Subscriber",
-      html: `<p>You have a new subscriber for NETA AI insights: <strong>${parsed.data.email}</strong></p>`,
+      html: `<p>You have a new subscriber for NETA AI insights: <strong>${escapeHtml(parsed.data.email)}</strong></p>`,
     });
 
     if (notifyError) {
@@ -63,4 +71,8 @@ export async function POST(request: Request) {
     console.error("Subscribe error:", error);
     return jsonResponse(request, { error: "Failed to subscribe" }, 500);
   }
+}
+
+function escapeHtml(value: string) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\"/g, "&quot;").replace(/'/g, "&#039;");
 }
