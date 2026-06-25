@@ -20,7 +20,7 @@ export function WhyChoose() {
           description="We exist for one reason: to turn AI adoption into measurable business revenue."
         />
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-24 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f) => (
             <div
               key={f.title}

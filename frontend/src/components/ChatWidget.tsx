@@ -120,12 +120,12 @@ export function ChatWidget() {
   return (
     <div className="fixed bottom-4 right-4 z-[100] sm:bottom-6 sm:right-6">
       {open && (
-        <section role="dialog" aria-label="NETA AI Automation Audit Assistant" className="mb-3 flex h-[min(680px,calc(100dvh-96px))] w-[calc(100vw-32px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:w-[410px]">
+        <section role="dialog" aria-label="NETA AI Automation Audit Assistant" className="mb-3 flex h-[min(580px,calc(100dvh-120px))] w-[calc(100vw-32px)] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl sm:w-[410px]">
           <header className="flex items-center gap-3 bg-[var(--ink)] px-4 py-3 text-white">
-            <span className="grid size-10 place-items-center rounded-full bg-brand-blue/25"><Bot className="size-5" /></span>
+            <span className="grid size-10 place-items-center rounded-full bg-[#2563eb] shadow-md"><Bot className="size-5 text-white" /></span>
             <div className="min-w-0 flex-1"><p className="font-semibold">Automation Audit Assistant</p><p className="text-xs text-white/65">NETA AI · typically 2 minutes</p></div>
-            <button onClick={reset} aria-label="Start over" className="rounded-lg p-2 hover:bg-white/10"><RefreshCw className="size-4" /></button>
-            <button onClick={() => setOpen(false)} aria-label="Close assistant" className="rounded-lg p-2 hover:bg-white/10"><X className="size-5" /></button>
+            <button onClick={reset} aria-label="Start over" className="cursor-pointer rounded-lg p-2 hover:bg-white/10"><RefreshCw className="size-4" /></button>
+            <button onClick={() => setOpen(false)} aria-label="Close assistant" className="cursor-pointer rounded-lg p-2 hover:bg-white/10"><X className="size-5" /></button>
           </header>
 
           <div className="flex-1 space-y-3 overflow-y-auto bg-slate-50 p-4" aria-live="polite">
@@ -137,7 +137,7 @@ export function ChatWidget() {
 
             {activeOptions.length > 0 && (
               <div className="grid gap-2 pt-1">
-                {activeOptions.map((option) => <button key={option} onClick={() => void choose(option)} className="rounded-xl border border-brand-blue/25 bg-white px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:border-brand-blue hover:bg-brand-blue/5">{option}</button>)}
+                {activeOptions.map((option) => <button key={option} onClick={() => void choose(option)} className="cursor-pointer rounded-xl border border-brand-blue/25 bg-white px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition hover:border-brand-blue hover:bg-brand-blue/5">{option}</button>)}
               </div>
             )}
 
@@ -153,13 +153,13 @@ export function ChatWidget() {
             )}
 
             {step === "success" && <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-sm font-medium text-emerald-700"><CheckCircle2 className="size-5" /> Request submitted successfully.</div>}
-            {(step === "success" || step === "declined") && <button onClick={reset} className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700">Start another audit</button>}
+            {(step === "success" || step === "declined") && <button onClick={reset} className="cursor-pointer w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700">Start another audit</button>}
             <div ref={endRef} />
           </div>
         </section>
       )}
 
-      {!open && <button onClick={() => setOpen(true)} className="flex items-center gap-2 rounded-full bg-brand-blue px-5 py-3.5 font-semibold text-white shadow-xl transition hover:-translate-y-0.5 hover:shadow-2xl"><MessageCircle className="size-5" /><span>Get Free Automation Audit</span></button>}
+      {!open && <button onClick={() => setOpen(true)} className="btn-primary group cursor-pointer flex items-center gap-2"><MessageCircle className="size-5" /><span>Get Free Automation Audit</span></button>}
     </div>
   );
 }

@@ -17,10 +17,28 @@ const links = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isOverDark, setIsOverDark] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 8);
+      const header = document.querySelector("header");
+      if (header) {
+        const rect = header.getBoundingClientRect();
+        const y = rect.top + rect.height / 2;
+        let overDark = false;
+        const darkSections = document.querySelectorAll(".section-dark, footer");
+        for (let i = 0; i < darkSections.length; i++) {
+          const sRect = darkSections[i].getBoundingClientRect();
+          if (y >= sRect.top && y <= sRect.bottom) {
+            overDark = true;
+            break;
+          }
+        }
+        setIsOverDark(overDark);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -30,16 +48,16 @@ export function Navbar() {
     <header
       className={`fixed z-50 transition-all duration-500 ${
         scrolled
-          ? "top-2 md:top-4 left-2 md:left-4 right-2 md:right-4 rounded-2xl bg-black border border-white/[0.08] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]"
-          : "top-0 left-0 right-0 bg-black border-b border-transparent"
+          ? `top-2 md:top-4 left-0 right-0 mx-auto w-[92%] md:w-[85%] max-w-6xl rounded-full border shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] ${isOverDark ? "bg-white border-black/10 text-black" : "bg-black border-white/[0.08] text-white"}`
+          : `top-0 left-0 right-0 w-full border-b ${isOverDark ? "bg-white border-black/10 text-black" : "bg-black border-transparent text-white"}`
       }`}
     >
       {/* Hairline top accent */}
       <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px hairline-top opacity-60" />
 
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 lg:px-8">
-        <div className="text-white">
-          <Logo dark />
+        <div className={isOverDark ? "text-black" : "text-white"}>
+          <Logo dark={!isOverDark} />
         </div>
 
         <nav className="hidden items-center gap-1 lg:flex">
@@ -47,12 +65,16 @@ export function Navbar() {
             <Link
               key={l.to}
               href={l.to}
-              className={`group relative rounded-full px-4 py-2 text-[13.5px] font-medium transition-colors hover:text-[#2563eb] ${
-                pathname === l.to ? "text-[#2563eb]" : "text-white/65"
+              className={`group relative rounded-full px-4 py-2 text-[13.5px] font-medium transition-colors ${
+                pathname === l.to
+                  ? "text-[#2563eb]"
+                  : isOverDark
+                  ? "text-black/70 hover:text-[#2563eb]"
+                  : "text-white/65 hover:text-[#2563eb]"
               }`}
             >
               <span className="relative z-10">{l.label}</span>
-              <span className="absolute inset-0 -z-0 scale-95 rounded-full bg-white/[0.06] opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100" />
+              <span className={`absolute inset-0 -z-0 scale-95 rounded-full opacity-0 transition-all duration-300 group-hover:scale-100 group-hover:opacity-100 ${isOverDark ? "bg-black/[0.06]" : "bg-white/[0.06]"}`} />
             </Link>
           ))}
         </nav>
@@ -65,7 +87,7 @@ export function Navbar() {
         </div>
 
         <button
-          className="lg:hidden rounded-md p-2 text-white"
+          className={`lg:hidden rounded-md p-2 ${isOverDark ? "text-black" : "text-white"}`}
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >

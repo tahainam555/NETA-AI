@@ -57,7 +57,7 @@ export function Process() {
           </p>
         </div>
 
-        <div className="relative mt-16">
+        <div className="relative mt-24">
           <div className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-brand-cyan/40 to-transparent lg:block" />
           <div className="space-y-14">
             {steps.map((step, index) => {

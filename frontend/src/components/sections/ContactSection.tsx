@@ -99,7 +99,7 @@ function ContactForm() {
           <label className="block text-[12.5px] font-medium text-foreground">Service interest</label>
           <select
             {...register("interest")}
-            className="mt-1.5 w-full rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm outline-none transition focus:border-primary/40 focus:bg-white focus:ring-4 focus:ring-primary/10"
+            className="mt-1.5 w-full cursor-pointer rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm outline-none transition focus:border-primary/40 focus:bg-white focus:ring-4 focus:ring-primary/10"
           >
             <option value="">Select a focus</option>
             {interests.map((item) => (
@@ -150,7 +150,7 @@ function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="btn-primary group mt-6 w-full justify-center disabled:cursor-not-allowed disabled:opacity-70"
+        className="btn-primary group mt-6 w-full cursor-pointer justify-center disabled:cursor-not-allowed disabled:opacity-70"
       >
         {isSubmitting ? "Sending..." : "Schedule a strategy call"}
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -172,8 +172,7 @@ export function ContactSection() {
         >
           {[
             { Icon: Mail, k: "Email", v: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "neta.ai.pk@gmail.com" },
-            { Icon: MessagesSquare, k: "Sales", v: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "neta.ai.pk@gmail.com" },
-            { Icon: MapPin, k: "HQ", v: "San Francisco · Remote" },
+            { Icon: MapPin, k: "HQ", v: "Islamabad · Remote" },
           ].map((b) => (
             <div key={b.k} className="flex items-start gap-4 rounded-2xl border border-border bg-white p-5 shadow-card">
               <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-brand text-white">

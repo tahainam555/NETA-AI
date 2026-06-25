@@ -14,7 +14,7 @@ export default function Page() {
     <>
       <PageHero
         eyebrow="Blogs"
-        title={<>Field notes on <span className="text-gradient">AI and automation</span></>}
+        title={<>Field Notes On <span className="text-gradient">AI And Automation</span></>}
         description="Long-form thinking, technical deep-dives, operator-grade playbooks."
       />
       <Blogs showHeader={false} />

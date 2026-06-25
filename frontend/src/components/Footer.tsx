@@ -69,7 +69,7 @@ export function Footer() {
               <button 
                 type="submit" 
                 disabled={status === "loading" || status === "success"}
-                className="btn-primary group m-1 !px-4 !py-1.5 !text-xs disabled:opacity-70 disabled:cursor-wait"
+                className="btn-primary group m-1 !px-4 !py-1.5 !text-xs cursor-pointer disabled:opacity-70 disabled:cursor-wait"
               >
                 {status === "loading" ? "..." : status === "success" ? "Done" : "Subscribe"}
                 <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />

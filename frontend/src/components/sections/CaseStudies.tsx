@@ -9,7 +9,7 @@ import { caseStudies } from "@/lib/site-content";
 
 export function CaseStudies({ showHeader = true }: { showHeader?: boolean }) {
   const sectionPadding = showHeader ? "py-28 lg:py-36" : "py-20 lg:py-28";
-  const gridSpacing = showHeader ? "mt-16" : "mt-10";
+  const gridSpacing = showHeader ? "mt-24" : "mt-16";
 
   return (
     <section className={sectionPadding}>

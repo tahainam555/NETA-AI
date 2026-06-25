@@ -16,7 +16,7 @@ export default function Page() {
     <>
       <PageHero
         eyebrow="About Us"
-        title={<>Built by Builders. <span className="text-gradient">Obsessed with Outcomes.</span></>}
+        title={<>Engineering the Future of <span className="text-gradient">Enterprise AI</span></>}
         description="We are an AI marketing automation agency that turns AI adoption into measurable business revenue."
       />
       <section className="py-20 lg:py-28">
@@ -34,8 +34,8 @@ export default function Page() {
           ))}
         </div>
       </section>
-      <WhyChoose />
       <Process />
+      <WhyChoose />
       <Testimonials />
       <FinalCTA />
     </>

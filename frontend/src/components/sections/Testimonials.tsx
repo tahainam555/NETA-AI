@@ -7,23 +7,23 @@ const items = [
   {
     quote:
       "NETA AI replaced three siloed tools with one adaptive automation layer. Our ops team finally spends time on strategy instead of cleanup work.",
-    name: "Sara Lindqvist",
-    role: "VP Operations",
-    company: "Vertexa",
+    name: "James Morrison",
+    role: "Director of Operations",
+    company: "Novalink Logistics",
   },
   {
     quote:
       "Their agents resolve 90% of our tier-1 support with the tone of our best human reps. CSAT is up 38 points and handle time is down 61%.",
-    name: "Marcus Chen",
-    role: "Head of Support",
-    company: "Lumenlabs",
+    name: "Sarah Jenkins",
+    role: "Customer Success Manager",
+    company: "BrightPath Education",
   },
   {
     quote:
       "Production-ready in six weeks. The team is rigorous, fast, and treats security and evals as first-class engineering work.",
-    name: "Priya Raghavan",
-    role: "CTO",
-    company: "Helix Financial",
+    name: "Michael Chang",
+    role: "Founder & CEO",
+    company: "Oakwood Retail Solutions",
   },
 ];
 
@@ -44,7 +44,7 @@ export function Testimonials() {
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+        <div className="mt-24 grid gap-5 lg:grid-cols-3">
           {items.map((t, i) => (
             <motion.figure
               key={i}

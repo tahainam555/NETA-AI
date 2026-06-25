@@ -15,7 +15,7 @@ export default function Page() {
     <>
       <PageHero
         eyebrow="Case Studies"
-        title={<>Outcomes from <span className="text-gradient">real AI deployments</span></>}
+        title={<>Outcomes From <span className="text-gradient">Real AI Deployments</span></>}
         description="See how teams automate operations, support, and revenue with NETA AI."
       />
       <CaseStudies showHeader={false} />
