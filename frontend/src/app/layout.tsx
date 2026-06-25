@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description:
     "NETA AI builds enterprise-grade AI agents and automation systems that streamline operations, support, sales and workflows.",
   icons: {
-    icon: "/icon.jpeg",
-    shortcut: "/icon.jpeg",
-    apple: "/icon.jpeg",
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
   openGraph: {
     title: "NETA AI — Intelligent AI Systems for Modern Businesses",
