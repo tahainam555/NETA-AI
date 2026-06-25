@@ -19,6 +19,9 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
   const [isOverDark, setIsOverDark] = useState(false);
   const pathname = usePathname();
+  const mobileOpenSurface = isOverDark
+    ? "bg-white border-black/10 text-black shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]"
+    : "bg-[rgba(10,11,16,0.96)] border-white/[0.10] text-white shadow-[0_18px_55px_-24px_rgba(0,0,0,0.75)]";
 
   useEffect(() => {
     const onScroll = () => {
@@ -47,7 +50,9 @@ export function Navbar() {
   return (
     <header
       className={`fixed z-50 transition-all duration-500 ${
-        scrolled
+        open
+          ? `top-2 left-0 right-0 mx-auto w-[92%] max-w-6xl overflow-hidden rounded-3xl border backdrop-blur-2xl ${mobileOpenSurface} lg:top-0 lg:w-full lg:rounded-none`
+          : scrolled
           ? `top-2 md:top-4 left-0 right-0 mx-auto w-[92%] md:w-[85%] max-w-6xl rounded-full border shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)] ${isOverDark ? "bg-white border-black/10 text-black" : "bg-black border-white/[0.08] text-white"}`
           : `top-0 left-0 right-0 w-full border-b ${isOverDark ? "bg-white border-black/10 text-black" : "bg-black border-transparent text-white"}`
       }`}
@@ -96,14 +101,18 @@ export function Navbar() {
       </div>
 
       {open && (
-        <div className="lg:hidden border-t border-white/[0.08] bg-[rgba(10,11,16,0.95)] backdrop-blur-2xl">
-          <div className="flex flex-col gap-1 px-5 py-4">
+        <div className={`lg:hidden border-t ${isOverDark ? "border-black/10 bg-white" : "border-white/[0.08] bg-[rgba(10,11,16,0.96)]"}`}>
+          <div className="flex flex-col gap-1 px-4 pb-4 pt-3">
             {links.map((l) => (
               <Link
                 key={l.to}
                 href={l.to}
                 onClick={() => setOpen(false)}
-                className="rounded-md px-3 py-2.5 text-sm font-medium text-white/80 hover:bg-white/[0.06] hover:text-white"
+                className={`rounded-2xl px-4 py-3 text-sm font-medium transition-colors ${
+                  isOverDark
+                    ? "text-slate-700 hover:bg-slate-100 hover:text-slate-950"
+                    : "text-white/80 hover:bg-white/[0.07] hover:text-white"
+                }`}
               >
                 {l.label}
               </Link>
