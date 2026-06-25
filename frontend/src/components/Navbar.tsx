@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Logo } from "./Logo";
 
@@ -23,8 +23,8 @@ export function Navbar() {
     ? "bg-white border-black/10 text-black shadow-[0_18px_50px_-28px_rgba(15,23,42,0.45)]"
     : "bg-[rgba(10,11,16,0.96)] border-white/[0.10] text-white shadow-[0_18px_55px_-24px_rgba(0,0,0,0.75)]";
 
-  useEffect(() => {
-    const onScroll = () => {
+  useLayoutEffect(() => {
+    const updateNavbarState = () => {
       setScrolled(window.scrollY > 8);
       const header = document.querySelector("header");
       if (header) {
@@ -42,14 +42,22 @@ export function Navbar() {
         setIsOverDark(overDark);
       }
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    updateNavbarState();
+    window.addEventListener("scroll", updateNavbarState, { passive: true });
+    window.addEventListener("resize", updateNavbarState);
+    return () => {
+      window.removeEventListener("scroll", updateNavbarState);
+      window.removeEventListener("resize", updateNavbarState);
+    };
   }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header
-      className={`fixed z-50 transition-all duration-500 ${
+      className={`fixed z-50 ${open ? "transition-colors duration-100" : "transition-all duration-500"} ${
         open
           ? `top-2 left-0 right-0 mx-auto w-[92%] max-w-6xl overflow-hidden rounded-3xl border backdrop-blur-2xl ${mobileOpenSurface} lg:top-0 lg:w-full lg:rounded-none`
           : scrolled
