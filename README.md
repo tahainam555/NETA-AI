@@ -47,7 +47,8 @@ Add these to the Vercel project whose Root Directory is `backend`:
 | --- | --- |
 | `FRONTEND_URL` | Deployed frontend origin; multiple allowed origins may be comma-separated |
 | `RESEND_SERVER_TOKEN` | Resend API key |
-| `CONTACT_FROM_EMAIL` | Sender on a domain verified in Resend, e.g. `NETA AI <hello@yourdomain.com>` |
+| `CONTACT_FROM_NAME` | Optional display name for backend emails, e.g. `NETA AI` |
+| `CONTACT_FROM_EMAIL` | Sender on a domain verified in Resend, e.g. `send@netaai.studio` or `NETA AI <send@netaai.studio>` |
 | `CONTACT_TO_EMAIL` | Inbox that receives contact and subscriber notifications |
 | `N8N_WEBHOOK_URL` | Private production URL copied from the n8n Webhook node |
 | `OLLAMA_ENABLED` | Keep `false` on Vercel unless Ollama is publicly reachable |

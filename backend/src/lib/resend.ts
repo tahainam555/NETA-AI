@@ -5,6 +5,7 @@ import type { ContactApiValues } from "@/lib/contact-schema";
 const serverToken = process.env.RESEND_SERVER_TOKEN;
 const fromEmail = process.env.CONTACT_FROM_EMAIL;
 const toEmail = process.env.CONTACT_TO_EMAIL;
+const senderName = process.env.CONTACT_FROM_NAME || "NETA AI";
 
 export function getResendClient() {
   if (!serverToken) {
@@ -20,6 +21,7 @@ export async function sendContactEmail(payload: ContactApiValues) {
   }
 
   const resend = getResendClient();
+  const sender = formatSender(fromEmail, senderName);
 
   const safe = {
     name: escapeHtml(payload.name),
@@ -51,7 +53,7 @@ export async function sendContactEmail(payload: ContactApiValues) {
   `;
 
   const { error } = await resend.emails.send({
-    from: fromEmail,
+    from: sender,
     to: [toEmail],
     replyTo: payload.email,
     subject: `New contact request - ${payload.name}`,
@@ -67,7 +69,7 @@ export async function sendContactEmail(payload: ContactApiValues) {
   // Non-critical automation: if the internal notification succeeds but the
   // auto-reply fails, keep the lead captured and log the issue for follow-up.
   const { error: autoReplyError } = await resend.emails.send({
-    from: fromEmail,
+    from: sender,
     to: [payload.email],
     subject: "We received your NETA AI automation request",
     text: [
@@ -112,6 +114,12 @@ export async function sendContactEmail(payload: ContactApiValues) {
   if (autoReplyError) {
     console.warn("Contact auto-reply failed:", autoReplyError);
   }
+}
+
+function formatSender(value: string, name: string) {
+  const trimmed = value.trim().replace(/^['"]|['"]$/g, "");
+  if (trimmed.includes("<") && trimmed.includes(">")) return trimmed;
+  return `${name} <${trimmed}>`;
 }
 
 function escapeHtml(value: string) {
