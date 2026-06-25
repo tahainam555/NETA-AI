@@ -21,7 +21,6 @@ export async function sendContactEmail(payload: ContactApiValues) {
 
   const resend = getResendClient();
 
-  const subject = `New contact request — ${payload.name}`;
   const safe = {
     name: escapeHtml(payload.name),
     email: escapeHtml(payload.email),
@@ -29,6 +28,7 @@ export async function sendContactEmail(payload: ContactApiValues) {
     interest: escapeHtml(payload.interest),
     message: escapeHtml(payload.message),
   };
+
   const textBody = [
     `Name: ${payload.name}`,
     `Email: ${payload.email}`,
@@ -54,7 +54,7 @@ export async function sendContactEmail(payload: ContactApiValues) {
     from: fromEmail,
     to: [toEmail],
     replyTo: payload.email,
-    subject: subject,
+    subject: `New contact request - ${payload.name}`,
     text: textBody,
     html: htmlBody,
   });
@@ -62,6 +62,55 @@ export async function sendContactEmail(payload: ContactApiValues) {
   if (error) {
     console.error("Resend error:", error);
     throw new Error("Failed to send email");
+  }
+
+  // Non-critical automation: if the internal notification succeeds but the
+  // auto-reply fails, keep the lead captured and log the issue for follow-up.
+  const { error: autoReplyError } = await resend.emails.send({
+    from: fromEmail,
+    to: [payload.email],
+    subject: "We received your NETA AI automation request",
+    text: [
+      `Hi ${payload.name},`,
+      "",
+      "Thanks for reaching out to NETA AI. We received your automation request and our team will review it shortly.",
+      "",
+      `Company: ${payload.company}`,
+      `Interest: ${payload.interest}`,
+      "",
+      "What happens next:",
+      "1. We review your current workflow and automation goal.",
+      "2. We identify the fastest automation opportunity.",
+      "3. We contact you with the next steps.",
+      "",
+      "If you want to add anything, just reply to this email.",
+      "",
+      "Best,",
+      "NETA AI",
+    ].join("\n"),
+    html: `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 620px;">
+        <h2 style="margin: 0 0 12px;">Thanks for contacting NETA AI</h2>
+        <p>Hi ${safe.name},</p>
+        <p>We received your automation request and our team will review it shortly.</p>
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; margin: 18px 0;">
+          <p style="margin: 0 0 8px;"><strong>Company:</strong> ${safe.company}</p>
+          <p style="margin: 0;"><strong>Interest:</strong> ${safe.interest}</p>
+        </div>
+        <p><strong>What happens next:</strong></p>
+        <ol>
+          <li>We review your current workflow and automation goal.</li>
+          <li>We identify the fastest automation opportunity.</li>
+          <li>We contact you with the next steps.</li>
+        </ol>
+        <p>If you want to add anything, just reply to this email.</p>
+        <p>Best,<br />NETA AI</p>
+      </div>
+    `,
+  });
+
+  if (autoReplyError) {
+    console.warn("Contact auto-reply failed:", autoReplyError);
   }
 }
 

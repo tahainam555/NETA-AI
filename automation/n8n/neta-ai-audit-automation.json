@@ -1,0 +1,185 @@
+{
+  "name": "NETA AI - Automation Audit Lead Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "neta-ai-audit",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-audit-lead",
+      "name": "Audit Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "neta-ai-audit"
+    },
+    {
+      "parameters": {
+        "jsCode": "const lead = $json.body || $json;\nconst recommendedAutomation = lead.recommendedAutomation || 'Custom Business Workflow Automation';\nconst benefits = [\n  'Reduce repetitive manual work',\n  'Capture and qualify leads faster',\n  'Notify your team automatically when a serious lead arrives'\n];\nconst ownerHtml = `\n  <h2>New NETA AI automation audit lead</h2>\n  <p><strong>Name:</strong> ${lead.name || ''}</p>\n  <p><strong>Business:</strong> ${lead.businessName || ''}</p>\n  <p><strong>Email:</strong> ${lead.email || ''}</p>\n  <p><strong>WhatsApp:</strong> ${lead.phone || ''}</p>\n  <p><strong>Business Type:</strong> ${lead.businessType || ''}</p>\n  <p><strong>Contact Channel:</strong> ${lead.contactChannel || ''}</p>\n  <p><strong>Pain Point:</strong> ${lead.painPoint || ''}</p>\n  <p><strong>Weekly Inquiries:</strong> ${lead.weeklyInquiries || ''}</p>\n  <p><strong>Recommendation:</strong> ${recommendedAutomation}</p>\n  <p><strong>Source:</strong> ${lead.source || 'NETA AI Website Automation Audit Assistant'}</p>\n`;\nconst userHtml = `\n  <div style=\"font-family: Arial, sans-serif; line-height: 1.6; max-width: 620px;\">\n    <h2>Your NETA AI automation audit request was received</h2>\n    <p>Hi ${lead.name || 'there'},</p>\n    <p>Thanks for completing the automation audit. Based on your answers, we recommend:</p>\n    <div style=\"background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:18px 0;\">\n      <strong>${recommendedAutomation}</strong>\n    </div>\n    <p>This can help you:</p>\n    <ul>${benefits.map((benefit) => `<li>${benefit}</li>`).join('')}</ul>\n    <p>NETA AI will contact you soon with the next steps.</p>\n    <p>Best,<br />NETA AI</p>\n  </div>\n`;\nreturn [{\n  json: {\n    lead,\n    recommendedAutomation,\n    benefits,\n    ownerEmail: $env.CONTACT_TO_EMAIL || 'neta.ai.pk@gmail.com',\n    fromEmail: $env.CONTACT_FROM_EMAIL || 'NETA AI <hello@example.com>',\n    hasUserEmail: Boolean(lead.email),\n    ownerPayload: {\n      from: $env.CONTACT_FROM_EMAIL || 'NETA AI <hello@example.com>',\n      to: [$env.CONTACT_TO_EMAIL || 'neta.ai.pk@gmail.com'],\n      subject: `New automation audit lead - ${lead.name || 'Website visitor'}`,\n      html: ownerHtml,\n      reply_to: lead.email || undefined\n    },\n    userPayload: {\n      from: $env.CONTACT_FROM_EMAIL || 'NETA AI <hello@example.com>',\n      to: lead.email ? [lead.email] : [],\n      subject: 'Your NETA AI automation audit request was received',\n      html: userHtml\n    },\n    responseBody: {\n      success: true,\n      recommendedAutomation,\n      summary: `NETA AI received the audit request from ${lead.name || 'the visitor'} and recommended ${recommendedAutomation}.`,\n      benefits,\n      message: 'Your automation audit request has been received. NETA AI will contact you soon.'\n    }\n  }\n}];"
+      },
+      "id": "prepare-email-payloads",
+      "name": "Prepare Email Payloads",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.RESEND_SERVER_TOKEN}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.ownerPayload) }}",
+        "options": {}
+      },
+      "id": "email-owner",
+      "name": "Email NETA AI Team",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [760, 220]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [
+            {
+              "value1": "={{ $('Prepare Email Payloads').item.json.hasUserEmail }}",
+              "value2": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "has-user-email",
+      "name": "Has User Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [760, 420]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{$env.RESEND_SERVER_TOKEN}}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($('Prepare Email Payloads').item.json.userPayload) }}",
+        "options": {}
+      },
+      "id": "email-user",
+      "name": "Auto Reply to Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1020, 380]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $('Prepare Email Payloads').item.json.responseBody }}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "respond-to-backend",
+      "name": "Respond to Backend",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1280, 300]
+    }
+  ],
+  "connections": {
+    "Audit Lead Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Email Payloads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Email Payloads": {
+      "main": [
+        [
+          {
+            "node": "Email NETA AI Team",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email NETA AI Team": {
+      "main": [
+        [
+          {
+            "node": "Has User Email?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has User Email?": {
+      "main": [
+        [
+          {
+            "node": "Auto Reply to Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Backend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto Reply to Lead": {
+      "main": [
+        [
+          {
+            "node": "Respond to Backend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
