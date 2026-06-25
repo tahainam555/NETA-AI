@@ -10,7 +10,6 @@ export const contactFormSchema = z.object({
 });
 
 export const contactApiSchema = contactFormSchema.extend({
-  recaptchaToken: z.string().min(1, "Missing reCAPTCHA token"),
   website: z.string().optional(),
 });
 

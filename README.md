@@ -35,7 +35,6 @@ Add these to the Vercel project whose Root Directory is `frontend`:
 | --- | --- |
 | `NEXT_PUBLIC_API_URL` | Deployed backend origin, e.g. `https://neta-ai-api.vercel.app` (no trailing slash) |
 | `NEXT_PUBLIC_SITE_URL` | Deployed frontend origin, e.g. `https://neta-ai.vercel.app` (no trailing slash) |
-| `NEXT_PUBLIC_RECAPTCHA_SITE_KEY` | Google reCAPTCHA v3 site key; authorize the frontend domain in Google |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Public email address displayed on the website |
 
 All `NEXT_PUBLIC_*` values are intentionally visible in the browser. Redeploy the frontend after changing them.
@@ -47,18 +46,17 @@ Add these to the Vercel project whose Root Directory is `backend`:
 | Variable | Value |
 | --- | --- |
 | `FRONTEND_URL` | Deployed frontend origin; multiple allowed origins may be comma-separated |
-| `RECAPTCHA_SECRET_KEY` | Secret paired with the frontend reCAPTCHA site key |
 | `RESEND_SERVER_TOKEN` | Resend API key |
 | `CONTACT_FROM_EMAIL` | Sender on a domain verified in Resend, e.g. `NETA AI <hello@yourdomain.com>` |
 | `CONTACT_TO_EMAIL` | Inbox that receives contact and subscriber notifications |
 | `N8N_WEBHOOK_URL` | Private production URL copied from the n8n Webhook node |
 | `OLLAMA_ENABLED` | Keep `false` on Vercel unless Ollama is publicly reachable |
 
-Do not put `RESEND_SERVER_TOKEN`, `RECAPTCHA_SECRET_KEY`, or `N8N_WEBHOOK_URL` in the frontend project.
+Do not put `RESEND_SERVER_TOKEN` or `N8N_WEBHOOK_URL` in the frontend project.
 
 ## Connecting the Automation Audit to n8n
 
-Create a Webhook node in n8n configured for `POST`, activate the workflow, and copy its **Production URL** into the backend variable `N8N_WEBHOOK_URL`. The backend validates reCAPTCHA and the request payload before forwarding it, so the private webhook is not shipped to browsers and n8n does not need browser CORS configuration.
+Create a Webhook node in n8n configured for `POST`, activate the workflow, and copy its **Production URL** into the backend variable `N8N_WEBHOOK_URL`. The backend validates the request payload before forwarding it, so the private webhook is not shipped to browsers and n8n does not need browser CORS configuration.
 
 End the workflow with a Respond to Webhook node returning JSON similar to:
 
@@ -77,14 +75,14 @@ This repo now includes two automation paths:
 
 1. Contact form automation inside the backend:
    - Visitor submits the contact form.
-   - Backend verifies reCAPTCHA.
+   - Backend validates the payload.
    - Backend emails the NETA AI team.
    - Backend automatically replies to the visitor.
 
 2. Automation audit flow through n8n:
    - Visitor completes the floating Automation Audit Assistant.
    - Frontend sends the lead to the backend.
-   - Backend verifies reCAPTCHA and forwards the lead to n8n.
+   - Backend validates the payload and forwards the lead to n8n.
    - n8n emails the NETA AI team.
    - n8n automatically replies to the visitor if an email was provided.
    - n8n responds to the backend with the recommendation summary.

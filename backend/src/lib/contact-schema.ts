@@ -6,7 +6,6 @@ export const contactApiSchema = z.object({
   company: z.string().min(2),
   interest: z.string().min(2),
   message: z.string().min(10),
-  recaptchaToken: z.string().min(1),
   website: z.string().optional(),
 });
 

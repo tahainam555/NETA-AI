@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Bot, CheckCircle2, Loader2, MessageCircle, RefreshCw, Send, X } from "lucide-react";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 import {
   generateRecommendation,
@@ -37,7 +36,6 @@ const initialAnswers: AuditAnswers = { businessType: "", contactChannel: "", pai
 const initialLead = { name: "", businessName: "", phone: "", email: "" };
 
 export function ChatWidget() {
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<Step>("businessType");
   const [messages, setMessages] = useState<Message[]>([{ id: 1, sender: "bot", text: questions.businessType.text }]);
@@ -89,14 +87,12 @@ export function ChatWidget() {
     setError("");
     setSubmitting(true);
     try {
-      if (!executeRecaptcha) throw new Error("Security verification is still loading. Please try again.");
-      const recaptchaToken = await executeRecaptcha("audit_submit");
       const result = await submitAuditToN8n({
         ...answers,
         ...lead,
         recommendedAutomation: recommendation,
         source: "NETA AI Website Automation Audit Assistant",
-      }, recaptchaToken);
+      });
       const finalRecommendation = result.recommendedAutomation || recommendation;
       setRecommendation(finalRecommendation);
       setStep("success");

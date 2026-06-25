@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { jsonResponse, optionsResponse } from "@/lib/http";
-import { verifyRecaptcha } from "@/lib/recaptcha";
 import { generateRecommendationRuleBased } from "@/lib/recommendation";
 
 const auditSchema = z
@@ -20,7 +19,6 @@ const auditSchema = z
       .refine((value) => !value || value.length >= 8, "Phone number is too short."),
     email: z.union([z.string().trim().email(), z.literal("")]),
     source: z.literal("NETA AI Website Automation Audit Assistant"),
-    recaptchaToken: z.string().min(1),
   })
   .refine((data) => data.phone.length >= 8 || Boolean(data.email), {
     message: "A valid phone number or email is required.",
@@ -34,17 +32,12 @@ export async function POST(request: Request) {
     const parsed = auditSchema.safeParse(await request.json());
     if (!parsed.success) return jsonResponse(request, { error: "Invalid audit request." }, 400);
 
-    const { recaptchaToken, ...submittedPayload } = parsed.data;
-    if (!(await verifyRecaptcha(recaptchaToken, "audit_submit"))) {
-      return jsonResponse(request, { error: "reCAPTCHA verification failed." }, 403);
-    }
-
     const webhookUrl = process.env.N8N_WEBHOOK_URL;
     if (!webhookUrl) return jsonResponse(request, { error: "Audit service is not configured." }, 500);
 
     const payload = {
-      ...submittedPayload,
-      recommendedAutomation: generateRecommendationRuleBased(submittedPayload),
+      ...parsed.data,
+      recommendedAutomation: generateRecommendationRuleBased(parsed.data),
     };
 
     const webhookResponse = await fetch(webhookUrl, {

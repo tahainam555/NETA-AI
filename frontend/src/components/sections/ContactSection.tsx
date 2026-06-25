@@ -4,7 +4,6 @@ import { type ComponentProps, useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { ArrowRight, Mail, MapPin, MessagesSquare } from "lucide-react";
 
 import { contactFormSchema, type ContactFormValues } from "@/lib/contact-schema";
@@ -24,7 +23,6 @@ const interests = [
 function ContactForm() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState<string>("");
-  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const {
     register,
@@ -47,22 +45,11 @@ function ContactForm() {
     setStatus("idle");
     setMessage("");
 
-    if (!executeRecaptcha) {
-      setStatus("error");
-      setMessage("reCAPTCHA is still loading. Please try again.");
-      return;
-    }
-
     try {
-      const recaptchaToken = await executeRecaptcha("contact_submit");
-
       const response = await fetch(apiUrl("/api/contact"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...values,
-          recaptchaToken,
-        }),
+        body: JSON.stringify(values),
       });
 
       if (!response.ok) {

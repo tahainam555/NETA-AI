@@ -59,15 +59,12 @@ export function validateAuditContact(lead: Pick<AuditLead, "name" | "businessNam
   return "";
 }
 
-export async function submitAuditToN8n(
-  payload: AuditLead,
-  recaptchaToken: string,
-): Promise<N8nAuditResponse> {
+export async function submitAuditToN8n(payload: AuditLead): Promise<N8nAuditResponse> {
   // The backend owns the private n8n webhook URL and forwards validated submissions.
   const response = await fetch(apiUrl("/api/audit"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...payload, recaptchaToken }),
+    body: JSON.stringify(payload),
   });
   const data = (await response.json().catch(() => ({}))) as Partial<N8nAuditResponse>;
   if (!response.ok || data.success === false) {

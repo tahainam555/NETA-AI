@@ -2,13 +2,11 @@ import { z } from "zod";
 import { Resend } from "resend";
 
 import { jsonResponse, optionsResponse } from "@/lib/http";
-import { verifyRecaptcha } from "@/lib/recaptcha";
 
 export const OPTIONS = optionsResponse;
 
 const subscribeSchema = z.object({
   email: z.string().email(),
-  recaptchaToken: z.string().min(1),
   website: z.string().optional(),
 });
 
@@ -20,10 +18,6 @@ export async function POST(request: Request) {
 
     if (!parsed.success) {
       return jsonResponse(request, { error: "Invalid email" }, 400);
-    }
-
-    if (!(await verifyRecaptcha(parsed.data.recaptchaToken, "newsletter_subscribe"))) {
-      return jsonResponse(request, { error: "reCAPTCHA verification failed." }, 403);
     }
 
     const resendToken = process.env.RESEND_SERVER_TOKEN;
