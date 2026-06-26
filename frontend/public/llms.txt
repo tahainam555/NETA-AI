@@ -5,12 +5,12 @@
 ## Website
 
 - Homepage: https://www.netaai.studio/
-- Services: https://www.netaai.studio/services
-- AI Solutions: https://www.netaai.studio/ai-solutions
-- Case Studies: https://www.netaai.studio/case-studies
-- Blogs: https://www.netaai.studio/blogs
-- About: https://www.netaai.studio/about
-- Contact: https://www.netaai.studio/contact
+- Services: https://www.netaai.studio/services-neta-ai
+- AI Solutions: https://www.netaai.studio/ai-solutions-neta-ai
+- Case Studies: https://www.netaai.studio/case-studies-neta-ai
+- Blogs: https://www.netaai.studio/blogs-neta-ai
+- About: https://www.netaai.studio/about-neta-ai
+- Contact: https://www.netaai.studio/contact-neta-ai
 
 ## Core topics
 

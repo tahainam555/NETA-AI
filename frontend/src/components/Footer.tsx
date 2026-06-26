@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { Logo } from "./Logo";
 import { Github, Linkedin, Twitter, Mail, ArrowRight } from "lucide-react";
 import { apiUrl } from "@/lib/api";
+import { routes } from "@/lib/routes";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -81,28 +82,28 @@ export function Footer() {
             <FooterCol
               title="Company"
               items={[
-                { label: "About Us", to: "/about" },
-                { label: "Case Studies", to: "/case-studies" },
-                { label: "Blogs", to: "/blogs" },
-                { label: "Contact", to: "/contact" },
+                { label: "About Us", to: routes.about },
+                { label: "Case Studies", to: routes.caseStudies },
+                { label: "Blogs", to: routes.blogs },
+                { label: "Contact", to: routes.contact },
               ]}
             />
             <FooterCol
               title="Solutions"
               items={[
-                { label: "AI Automation", to: "/services" },
-                { label: "AI Agents", to: "/ai-solutions" },
-                { label: "Workflow Orchestration", to: "/services" },
-                { label: "CRM Automation", to: "/services" },
+                { label: "AI Automation", to: routes.services },
+                { label: "AI Agents", to: routes.aiSolutions },
+                { label: "Workflow Orchestration", to: routes.services },
+                { label: "CRM Automation", to: routes.services },
               ]}
             />
             <FooterCol
               title="Resources"
               items={[
-                { label: "Services", to: "/services" },
-                { label: "AI Solutions", to: "/ai-solutions" },
-                { label: "Insights", to: "/blogs" },
-                { label: "Talk to Sales", to: "/contact" },
+                { label: "Services", to: routes.services },
+                { label: "AI Solutions", to: routes.aiSolutions },
+                { label: "Insights", to: routes.blogs },
+                { label: "Talk to Sales", to: routes.contact },
               ]}
             />
           </div>

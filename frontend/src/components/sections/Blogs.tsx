@@ -6,6 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { blogPosts } from "@/lib/site-content";
+import { blogRoute, routes } from "@/lib/routes";
 
 export function Blogs({ showHeader = true }: { showHeader?: boolean }) {
   const sectionPadding = showHeader ? "py-28 lg:py-36" : "py-20 lg:py-28";
@@ -22,7 +23,7 @@ export function Blogs({ showHeader = true }: { showHeader?: boolean }) {
               title={<>Ideas On <span className="text-gradient">AI And Operations</span></>}
               description="Research and field notes from production AI deployments."
             />
-            <Link href="/blogs" className="btn-ghost hidden shrink-0 sm:inline-flex">
+            <Link href={routes.blogs} className="btn-ghost hidden shrink-0 sm:inline-flex">
               All articles <ArrowUpRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -38,7 +39,7 @@ export function Blogs({ showHeader = true }: { showHeader?: boolean }) {
               transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link
-                href={`/blogs/${p.slug}`}
+                href={blogRoute(p.slug)}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated"
               >
                 <div className={`relative aspect-[16/10] overflow-hidden bg-gradient-to-br ${p.accent}`}>

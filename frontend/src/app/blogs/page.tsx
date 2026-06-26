@@ -5,7 +5,7 @@ import { Blogs } from "@/components/sections/Blogs";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "blogs-neta-ai",
+  title: "Blogs — NETA AI",
   description: "Insights on AI agents, automation and enterprise operations from the NETA AI team.",
 };
 

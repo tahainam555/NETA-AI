@@ -5,6 +5,7 @@ import { SectionHeader } from "../SiteShell";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { services } from "@/lib/site-content";
+import { serviceRoute } from "@/lib/routes";
 
 export function Services({ showHeader = true }: { showHeader?: boolean }) {
   const sectionPadding = showHeader ? "py-28 lg:py-36" : "py-20 lg:py-28";
@@ -32,7 +33,7 @@ export function Services({ showHeader = true }: { showHeader?: boolean }) {
                 transition={{ duration: 0.5, delay: (i % 4) * 0.06, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Link
-                  href={`/services/${s.slug}`}
+                  href={serviceRoute(s.slug)}
                   className="group relative block h-full overflow-hidden rounded-2xl border border-border bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated lg:p-8"
                 >
                   <div className="absolute inset-x-0 -top-12 h-24 bg-gradient-to-b from-brand-cyan/0 via-brand-cyan/0 to-transparent opacity-0 transition-opacity duration-300 group-hover:from-brand-cyan/20 group-hover:via-brand-blue/10 group-hover:opacity-100" />

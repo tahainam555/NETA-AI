@@ -33,8 +33,11 @@ export const metadata: Metadata = {
   description:
     "NETA AI builds enterprise-grade AI agents and automation systems that streamline operations, support, sales and workflows.",
   icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    shortcut: "/favicon.ico",
     apple: "/icon.png",
   },
   openGraph: {

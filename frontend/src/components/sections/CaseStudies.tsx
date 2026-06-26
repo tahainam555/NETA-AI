@@ -6,6 +6,7 @@ import { SectionHeader } from "../SiteShell";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { caseStudies } from "@/lib/site-content";
+import { caseStudyRoute } from "@/lib/routes";
 
 export function CaseStudies({ showHeader = true }: { showHeader?: boolean }) {
   const sectionPadding = showHeader ? "py-28 lg:py-36" : "py-20 lg:py-28";
@@ -32,7 +33,7 @@ export function CaseStudies({ showHeader = true }: { showHeader?: boolean }) {
               transition={{ duration: 0.6, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
             >
               <Link
-                href={`/case-studies/${c.slug}`}
+                href={caseStudyRoute(c.slug)}
                 className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-elevated"
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-secondary">

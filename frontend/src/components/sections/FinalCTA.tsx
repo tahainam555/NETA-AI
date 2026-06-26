@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
+import { routes } from "@/lib/routes";
 
 export function FinalCTA() {
   return (
@@ -33,12 +34,12 @@ export function FinalCTA() {
               Deploy AI automation systems tailored to your business model, existing CRM, and specific revenue goals.
             </p>
             <div className="mt-9 flex flex-wrap justify-center gap-3">
-              <Link href="/contact" className="btn-primary group">
+              <Link href={routes.contact} className="btn-primary group">
                 <Calendar className="h-4 w-4" />
                 Book a strategy call
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href="/case-studies" className="btn-ghost-dark">
+              <Link href={routes.caseStudies} className="btn-ghost-dark">
                 See enterprise case studies
               </Link>
             </div>

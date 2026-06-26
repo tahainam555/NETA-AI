@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { caseStudies } from "@/lib/site-content";
+import { routes } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -19,11 +20,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const study = caseStudies.find((item) => item.slug === slug);
   if (!study) {
-    return { title: "case-study-not-found-neta-ai" };
+    return { title: "Case study not found — NETA AI" };
   }
 
   return {
-    title: `${study.slug}-neta-ai`,
+    title: `${study.title} — NETA AI`,
     description: study.summary,
   };
 }
@@ -95,12 +96,12 @@ export default async function Page({ params }: PageProps) {
                 <p className="mt-3 text-[13.5px] text-muted-foreground">
                   Want results like this? We will map the fastest path to launch for your team.
                 </p>
-                <Link href="/contact" className="btn-primary mt-5 w-full justify-center">
+                <Link href={routes.contact} className="btn-primary mt-5 w-full justify-center">
                   Schedule a strategy call
                 </Link>
               </div>
 
-              <Link href="/case-studies" className="btn-ghost w-full justify-center">
+              <Link href={routes.caseStudies} className="btn-ghost w-full justify-center">
                 Back to case studies
               </Link>
             </aside>

@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { services } from "@/lib/site-content";
+import { routes } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -18,11 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const service = services.find((item) => item.slug === slug);
   if (!service) {
-    return { title: "service-not-found-neta-ai" };
+    return { title: "Service not found — NETA AI" };
   }
 
   return {
-    title: `${service.slug}-neta-ai`,
+    title: `${service.title} — NETA AI`,
     description: service.summary,
   };
 }
@@ -87,12 +88,12 @@ export default async function Page({ params }: PageProps) {
                 <p className="mt-3 text-[13.5px] text-muted-foreground">
                   Tell us about your current workflows and we will recommend the fastest path to launch.
                 </p>
-                <Link href="/contact" className="btn-primary mt-5 w-full justify-center">
+                <Link href={routes.contact} className="btn-primary mt-5 w-full justify-center">
                   Book a strategy call
                 </Link>
               </div>
 
-              <Link href="/services" className="btn-ghost w-full justify-center">
+              <Link href={routes.services} className="btn-ghost w-full justify-center">
                 Back to services
               </Link>
             </aside>

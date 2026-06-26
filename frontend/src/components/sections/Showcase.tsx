@@ -6,6 +6,7 @@ import showcase from "@/assets/ai-showcase.jpg";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { solutions } from "@/lib/site-content";
+import { aiSolutionRoute } from "@/lib/routes";
 
 export function Showcase({ showHeader = true }: { showHeader?: boolean }) {
   const sectionPadding = showHeader ? "py-28 lg:py-36" : "py-20 lg:py-28";
@@ -68,7 +69,7 @@ export function Showcase({ showHeader = true }: { showHeader?: boolean }) {
                 transition={{ duration: 0.55, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
               >
                 <Link
-                  href={`/ai-solutions/${f.slug}`}
+                  href={aiSolutionRoute(f.slug)}
                   className="group flex gap-4 rounded-xl border border-white/[0.08] bg-white/[0.03] p-4 backdrop-blur transition-all hover:border-brand-cyan/35 hover:bg-white/[0.05]"
                 >
                   <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gradient-brand text-white shadow-[0_0_24px_-6px_rgba(125,211,252,0.7)]">

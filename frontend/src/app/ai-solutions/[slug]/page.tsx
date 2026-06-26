@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { solutions } from "@/lib/site-content";
+import { routes } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -18,11 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const solution = solutions.find((item) => item.slug === slug);
   if (!solution) {
-    return { title: "ai-solution-not-found-neta-ai" };
+    return { title: "AI Solution not found — NETA AI" };
   }
 
   return {
-    title: `${solution.slug}-neta-ai`,
+    title: `${solution.title} — NETA AI`,
     description: solution.summary,
   };
 }
@@ -77,12 +78,12 @@ export default async function Page({ params }: PageProps) {
                 <p className="mt-3 text-[13.5px] text-muted-foreground">
                   We will map this solution to your current stack and define the fastest pilot path.
                 </p>
-                <Link href="/contact" className="btn-primary mt-5 w-full justify-center">
+                <Link href={routes.contact} className="btn-primary mt-5 w-full justify-center">
                   Talk to an AI strategist
                 </Link>
               </div>
 
-              <Link href="/ai-solutions" className="btn-ghost w-full justify-center">
+              <Link href={routes.aiSolutions} className="btn-ghost w-full justify-center">
                 Back to AI solutions
               </Link>
             </aside>

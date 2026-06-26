@@ -6,7 +6,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "case-studies-neta-ai",
+  title: "Case Studies — NETA AI",
   description: "Real AI deployments. Measured results. See how NETA AI transforms enterprise operations.",
 };
 

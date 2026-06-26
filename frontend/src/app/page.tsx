@@ -12,7 +12,7 @@ import { Blogs } from "@/components/sections/Blogs";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "home-neta-ai | Intelligent AI Systems for Modern Businesses",
+  title: "NETA AI — Intelligent AI Systems for Modern Businesses",
   description:
     "NETA AI builds enterprise-grade AI agents and automation systems that streamline operations, support, sales and workflows.",
 };

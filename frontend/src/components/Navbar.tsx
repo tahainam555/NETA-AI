@@ -5,13 +5,14 @@ import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { Logo } from "./Logo";
+import { routes } from "@/lib/routes";
 
 const links = [
-  { to: "/services", label: "Services" },
-  { to: "/ai-solutions", label: "AI Solutions" },
-  { to: "/case-studies", label: "Case Studies" },
-  { to: "/about", label: "About Us" },
-  { to: "/blogs", label: "Blogs" },
+  { to: routes.services, label: "Services" },
+  { to: routes.aiSolutions, label: "AI Solutions" },
+  { to: routes.caseStudies, label: "Case Studies" },
+  { to: routes.about, label: "About Us" },
+  { to: routes.blogs, label: "Blogs" },
 ] as const;
 
 export function Navbar() {
@@ -93,7 +94,7 @@ export function Navbar() {
         </nav>
 
         <div className="hidden lg:flex">
-          <Link href="/contact" className="btn-primary group">
+          <Link href={routes.contact} className="btn-primary group">
             Contact Us
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
@@ -126,7 +127,7 @@ export function Navbar() {
               </Link>
             ))}
             <Link
-              href="/contact"
+              href={routes.contact}
               onClick={() => setOpen(false)}
               className="btn-primary mt-2 justify-center"
             >

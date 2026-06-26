@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { PageHero } from "@/components/PageHero";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { blogPosts } from "@/lib/site-content";
+import { routes } from "@/lib/routes";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -18,11 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const post = blogPosts.find((item) => item.slug === slug);
   if (!post) {
-    return { title: "article-not-found-neta-ai" };
+    return { title: "Article not found — NETA AI" };
   }
 
   return {
-    title: `${post.slug}-neta-ai`,
+    title: `${post.title} — NETA AI`,
     description: post.excerpt,
   };
 }
@@ -56,7 +57,7 @@ export default async function Page({ params }: PageProps) {
           </div>
 
           <div className="mt-10 border-t border-border pt-6">
-            <Link href="/blogs" className="btn-ghost">
+            <Link href={routes.blogs} className="btn-ghost">
               Back to blogs
             </Link>
           </div>

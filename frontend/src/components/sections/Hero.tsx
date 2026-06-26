@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Activity, Zap, Bot } from "lucide-react";
 import heroImg from "@/assets/hero-dashboard.jpg";
+import { routes } from "@/lib/routes";
 
 export function Hero() {
   return (
@@ -54,11 +55,11 @@ export function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <Link href="/contact" className="btn-primary group">
+              <Link href={routes.contact} className="btn-primary group">
                 Book a strategy call
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-              <Link href="/services" className="btn-ghost">
+              <Link href={routes.services} className="btn-ghost">
                 Explore Our Services
               </Link>
             </motion.div>

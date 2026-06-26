@@ -4,7 +4,7 @@ import { PageHero } from "@/components/PageHero";
 import { ContactSection } from "@/components/sections/ContactSection";
 
 export const metadata: Metadata = {
-  title: "contact-neta-ai",
+  title: "Contact — NETA AI",
   description: "Talk to the NETA AI team about your AI automation strategy.",
 };
 
