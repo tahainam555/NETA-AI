@@ -7,6 +7,25 @@ import { ChatWidget } from "@/components/ChatWidget";
 import { getSiteUrl } from "@/lib/site-url";
 
 const siteUrl = getSiteUrl();
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "NETA AI",
+  alternateName: "NETA AI Pakistan",
+  url: "https://www.netaai.studio",
+  logo: "https://www.netaai.studio/logo.png",
+  description:
+    "NETA AI is an AI automation company specializing in AI agents, workflow automation, CRM automation, sales automation, and intelligent business systems.",
+  foundingDate: "2026",
+  sameAs: ["https://www.linkedin.com/company/neta-ai-pk/"],
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "NETA AI",
+  url: "https://www.netaai.studio",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -31,6 +50,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
       <body className="antialiased">
         <AppProviders>
           <SiteShell>{children}</SiteShell>

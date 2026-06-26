@@ -7,7 +7,7 @@ import { Testimonials } from "@/components/sections/Testimonials";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "About — NETA AI",
+  title: "about-neta-ai",
   description: "NETA AI is an enterprise AI automation company building intelligent systems for modern businesses.",
 };
 

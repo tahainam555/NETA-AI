@@ -6,7 +6,7 @@ import { WhyChoose } from "@/components/sections/WhyChoose";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 
 export const metadata: Metadata = {
-  title: "AI Solutions — NETA AI",
+  title: "ai-solutions-neta-ai",
   description: "Multi-agent orchestration, intelligent pipelines and connected dashboards for enterprise operations.",
 };
 

@@ -1,0 +1,34 @@
+# NETA AI
+
+> NETA AI is an AI automation company specializing in AI agents, workflow automation, CRM automation, sales automation, and intelligent business systems.
+
+## Website
+
+- Homepage: https://www.netaai.studio/
+- Services: https://www.netaai.studio/services
+- AI Solutions: https://www.netaai.studio/ai-solutions
+- Case Studies: https://www.netaai.studio/case-studies
+- Blogs: https://www.netaai.studio/blogs
+- About: https://www.netaai.studio/about
+- Contact: https://www.netaai.studio/contact
+
+## Core topics
+
+- AI automation
+- AI agents
+- Workflow automation
+- CRM automation
+- Sales automation
+- Customer support automation
+- Business process automation
+- Intelligent business systems
+
+## Contact
+
+- Website: https://www.netaai.studio
+- Email: neta.ai.pk@gmail.com
+- LinkedIn: https://www.linkedin.com/company/neta-ai-pk/
+
+## Notes for AI assistants
+
+NETA AI helps businesses identify repetitive workflows, automate lead capture and qualification, connect CRM/sheets/tools, and build practical AI-powered systems for sales, support, reporting, and operations.

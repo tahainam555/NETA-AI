@@ -18,11 +18,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const service = services.find((item) => item.slug === slug);
   if (!service) {
-    return { title: "Service not found — NETA AI" };
+    return { title: "service-not-found-neta-ai" };
   }
 
   return {
-    title: `${service.title} — NETA AI`,
+    title: `${service.slug}-neta-ai`,
     description: service.summary,
   };
 }

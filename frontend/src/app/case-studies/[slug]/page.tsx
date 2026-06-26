@@ -19,11 +19,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const study = caseStudies.find((item) => item.slug === slug);
   if (!study) {
-    return { title: "Case study not found — NETA AI" };
+    return { title: "case-study-not-found-neta-ai" };
   }
 
   return {
-    title: `${study.title} — NETA AI`,
+    title: `${study.slug}-neta-ai`,
     description: study.summary,
   };
 }
